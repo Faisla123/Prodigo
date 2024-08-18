@@ -219,8 +219,10 @@ userSchema.index({ email: 1 });
 
 
 ## Screenshots
+![home](https://github.com/user-attachments/assets/180d2de0-f60b-4204-aaf8-c54571a363ff)
 
-![home](https://github.com/user-attachments/assets/795d4d6b-92b5-4e97-bff1-f67f59278103)
 
 
-![sign-in](https://github.com/user-attachments/assets/291e34fd-9026-475b-a831-9ba42fdc39da)
+![sign-in](https://github.com/user-attachments/assets/00ccfb72-3826-4b6a-b112-bd267f1dae02)
+
+
