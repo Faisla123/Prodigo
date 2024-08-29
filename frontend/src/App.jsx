@@ -1,3 +1,7 @@
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+//components
 import Nav from "./components/nav.jsx";
 import Hero from "./components/hero.jsx";
 import Mid from "./components/mid_hero.jsx";

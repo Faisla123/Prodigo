@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import LOGO from "../public/Logo.png";
+import { Link } from "react-router-dom";
+import Login from "./Login.jsx";
+import { useLoginMutation } from "../redux/api/userSlice.js";
+import { useNavigate } from "react-router-dom";
 
 const nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,18 +54,18 @@ const nav = () => {
               </div>
             </div>
 
-            <a
-              href="#"
+            <Link
+              to="/sign-up"
               className="bg-black text-white px-4 py-2 rounded-md text-md font-serif hover:bg-red-500"
             >
               Sign In
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/login"
               className="bg-black text-white px-4 py-2 rounded-md text-md font-serif hover:bg-red-500"
             >
               Log In
-            </a>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -150,18 +154,18 @@ const nav = () => {
               </svg>
             </div>
           </div>
-          <a
-            href="#"
+          <Link
+            to="/sign-in"
             className="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium"
           >
             Sign In
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/login"
             className="bg-indigo-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700"
           >
             Log In
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
