@@ -18,6 +18,6 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Services = mongoose.model("Services", userSchema);
+const Product = mongoose.model("Services", userSchema);
 
-export default Services;
+export default Product;

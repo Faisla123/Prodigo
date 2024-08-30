@@ -1,6 +1,48 @@
 import Log from "../public/login.jpg";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-const Login = () => {
+import { useLoginMutation } from "../redux/api/userSlice.js";
+import { setCredientials } from "../redux/features/auth/authSlice.js";
+import { toast } from "react-toastify";
+
+const login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const userInfo = useSelector((state) => state.auth);
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+
+  useEffect(
+    () => {
+      if (userInfo) {
+        navigate(redirect);
+      }
+    },
+    { navigate, redirect, userInfo }
+  );
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await login({ email, password }).unwrap();
+      console.log(res);
+      if (password === password) {
+        navigate("/user");
+      }
+      dispatch(setCredientials({ ...res }));
+    } catch (error) {
+      toast.error(error?.data?.message || error.message);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-md">
@@ -12,17 +54,24 @@ const Login = () => {
             Please sign in to your account
           </p>
         </div>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form
+          onSubmit={submitHandler}
+          className="mt-8 space-y-6"
+          action="#"
+          method="POST"
+        >
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">
+              <label htmlFor="email" className="sr-only">
                 Email address
               </label>
               <input
-                id="email-address"
+                id="email"
                 name="email"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -37,6 +86,8 @@ const Login = () => {
                 id="password"
                 name="password"
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -73,10 +124,11 @@ const Login = () => {
 
           <div>
             <button
+              disabled={isLoading}
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
             >
-              Sign in
+              {isLoading ? "Logging In..." : "Login"}
             </button>
           </div>
         </form>
@@ -84,10 +136,10 @@ const Login = () => {
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
             <Link
-              to="/login"
+              to="/sign-up"
               className="font-medium text-black hover:text-red-400"
             >
-              Log-in
+              Sign-in
             </Link>
           </p>
         </div>
@@ -104,4 +156,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default login;
